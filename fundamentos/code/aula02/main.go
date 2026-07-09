@@ -3,17 +3,22 @@ package main
 import "fmt"
 
 func main() {
-	fmt.Println("Hello, World!")
+	arr00 := []int{}
+	fmt.Println(arr00)
 
-	checkAdult(17)
-}
+	arr01 := [5]int{1, 2, 3, 4, 5}
+	slice01 := arr01[1:4]
+	arr01[1] = 100
+	slice01[1] = 200
+	fmt.Println(slice01)
 
-func checkAdult(age int) {
-	if age < 18 {
-		fmt.Println("You are a child.")
-	} else if age == 18 {
-		fmt.Println("A fresh new adult!")
-	} else {
-		fmt.Println("You are an adult.")
-	}
+	slice02 := []int{1, 2, 3, 4, 5}
+	slice03 := slice02[:0]
+	fmt.Println(slice03, len(slice03), cap(slice03))
+
+	var slice04 []int
+	fmt.Println(slice04 == nil)
+
+	var slice05 = []int{}
+	fmt.Println(slice05 == nil)
 }
