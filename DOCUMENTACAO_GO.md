@@ -94,11 +94,11 @@ func main() {
 }
 ```
 
-Explicacao:
+Explicação:
 
 - `package main`: define o pacote do arquivo.
-- `import "fmt"`: importa o pacote de formatacao.
-- `func main()`: ponto de entrada de um programa executavel.
+- `import "fmt"`: importa o pacote de formatação.
+- `func main()`: ponto de entrada de um programa executável.
 - `fmt.Println`: imprime uma mensagem no terminal.
 
 ## Pacotes e imports
@@ -124,36 +124,36 @@ import (
 )
 ```
 
-Pacotes da biblioteca padrao sao importados pelo nome, como `fmt`, `time`, `net/http`, `encoding/json` e `os`.
+Pacotes da biblioteca padrão são importados pelo nome, como `fmt`, `time`, `net/http`, `encoding/json` e `os`.
 
-Pacotes de terceiros sao adicionados ao projeto com:
+Pacotes de terceiros são adicionados ao projeto com:
 
 ```bash
 go get github.com/exemplo/pacote
 ```
 
-## Variaveis e constantes
+## Variáveis e constantes
 
-Declaracao com tipo explicito:
+Declaração com tipo explícito:
 
 ```go
 var nome string = "Ana"
 var idade int = 30
 ```
 
-Declaracao com inferencia de tipo:
+Declaração com inferência de tipo:
 
 ```go
 var cidade = "Sao Paulo"
 ```
 
-Declaracao curta, usada dentro de funcoes:
+Declaração curta, usada dentro de funções:
 
 ```go
 curso := "Go"
 ```
 
-Multiplas variaveis:
+Múltiplas variáveis:
 
 ```go
 var (
@@ -169,29 +169,36 @@ const pi = 3.14159
 const linguagem = "Go"
 ```
 
-Constantes nao podem ter o valor alterado depois de declaradas.
+Constantes não podem ter o valor alterado depois de declaradas.
 
 ## Tipos de dados
 
-### Tipos numericos
+### Tipos numéricos
 
 Inteiros:
 
 ```go
-var a int = 10
-var b int8 = 127
-var c int64 = 1000000
+var a int = 10 // int é um tipo de inteiro com tamanho dependente da arquitetura (32 ou 64 bits)
+var b int8 = 127 // int8 varia de -128 a 127
+var c int16 = -32768 // int16 varia de -32768 a 32767
+var d int32 = -2147483648 // int32 varia de -2147483648 a 2147483647
+var e int64 = 1000000 // int64 varia de -9223372036854775808 a 9223372036854775807
 ```
 
 Inteiros sem sinal:
 
 ```go
-var idade uint = 25
+var f uint = 25 // uint é um inteiro sem sinal
+var g uint8 = 255 // uint8 varia de 0 a 255
+var h uint16 = 65535 // uint16 varia de 0 a 65535
+var i uint32 = 4294967295 // uint32 varia de 0 a 4294967295
+var j uint64 = 1000000 // uint64 varia de 0 a 18446744073709551615
 ```
 
 Ponto flutuante:
 
 ```go
+var preco float32 = 19.99
 var preco float64 = 19.99
 ```
 
@@ -199,14 +206,15 @@ Complexos:
 
 ```go
 var numero complex64 = 1 + 2i
+var numero complex128 = 1 + 2i
 ```
 
 ### Texto
 
-Strings sao sequencias imutaveis de bytes:
+Strings são sequencias imutáveis de bytes:
 
 ```go
-mensagem := "Ola"
+mensagem := "Olá"
 ```
 
 Caracteres Unicode podem ser representados com `rune`:
@@ -224,27 +232,27 @@ finalizado := false
 
 ### Valor zero
 
-Quando uma variavel e declarada sem valor inicial, Go atribui um valor zero:
+Quando uma variável é declarada sem valor inicial, Go atribui um valor zero:
 
 - `int`: `0`
 - `float64`: `0`
 - `bool`: `false`
 - `string`: `""`
-- ponteiros, slices, maps, channels, interfaces e funcoes: `nil`
+- ponteiros, slices, maps, channels, interfaces e funcões: `nil`
 
 ## Operadores
 
-Aritmeticos:
+Aritméticos:
 
 ```go
 soma := 10 + 5
-subtracao := 10 - 5
-multiplicacao := 10 * 5
-divisao := 10 / 5
+subtração := 10 - 5
+multiplicação := 10 * 5
+divisão := 10 / 5
 resto := 10 % 3
 ```
 
-Comparacao:
+Comparação:
 
 ```go
 10 == 10
@@ -255,7 +263,7 @@ Comparacao:
 5 <= 5
 ```
 
-Logicos:
+Lógicos:
 
 ```go
 true && false
@@ -263,7 +271,7 @@ true || false
 !true
 ```
 
-Atribuicao:
+Atribuição:
 
 ```go
 x := 10
@@ -277,6 +285,8 @@ x /= 2
 
 ### if, else if e else
 
+Exemplo simples:
+
 ```go
 idade := 18
 
@@ -287,7 +297,23 @@ if idade >= 18 {
 }
 ```
 
-Com inicializacao curta:
+Exemplo com `else if`:
+
+```go
+idade := rand.Intn(200) - 100 // idade aleatoria entre -100 e 99
+
+if idade > 18 {
+	fmt.Println("Maior de idade")
+} else if idade == 18 {
+	fmt.Println("Adulto bem fresco")
+} else if idade >= 0 && idade < 18{
+	fmt.Println("Menor de idade")
+} else {
+	fmt.Println("Voltou no tempo miserável?")
+}
+```
+
+Com inicialização curta:
 
 ```go
 if nota := 8; nota >= 7 {
@@ -302,7 +328,7 @@ dia := "segunda"
 
 switch dia {
 case "segunda":
-	fmt.Println("Inicio da semana")
+	fmt.Println("Início da semana")
 case "sexta":
 	fmt.Println("Quase fim de semana")
 default:
@@ -310,7 +336,7 @@ default:
 }
 ```
 
-Switch sem expressao:
+Switch sem expressão:
 
 ```go
 idade := 20
@@ -325,7 +351,7 @@ case idade >= 18:
 
 ### for
 
-Go possui apenas o laco `for`.
+Go possui apenas o laço `for`.
 
 Formato tradicional:
 
@@ -346,7 +372,7 @@ for contador < 5 {
 }
 ```
 
-Laco infinito:
+Laço infinito:
 
 ```go
 for {
@@ -358,16 +384,16 @@ for {
 Com `range`:
 
 ```go
-nomes := []string{"Ana", "Joao", "Maria"}
+names := []string{"Ana", "Joao", "Maria"}
 
-for indice, nome := range nomes {
-	fmt.Println(indice, nome)
+for index, name := range names {
+	fmt.Println(index, name)
 }
 ```
 
-## Funcoes
+## Funções
 
-Declaracao basica:
+Declaração básica:
 
 ```go
 func somar(a int, b int) int {
@@ -375,7 +401,7 @@ func somar(a int, b int) int {
 }
 ```
 
-Parametros do mesmo tipo podem ser agrupados:
+Parâmetros do mesmo tipo podem ser agrupados:
 
 ```go
 func somar(a, b int) int {
@@ -383,7 +409,7 @@ func somar(a, b int) int {
 }
 ```
 
-Multiplos retornos:
+Múltiplos retornos:
 
 ```go
 func dividir(a, b int) (int, error) {
@@ -405,40 +431,40 @@ func coordenadas() (x int, y int) {
 }
 ```
 
-Funcoes variadicas:
+Funções variádicas:
 
 ```go
-func somarTudo(numeros ...int) int {
+func somarTudo(numbers ...int) int {
 	total := 0
 
-	for _, numero := range numeros {
-		total += numero
+	for _, number := range numbers {
+		total += number
 	}
 
 	return total
 }
 ```
 
-Funcoes anonimas:
+Funções anonimas:
 
 ```go
-dobro := func(numero int) int {
-	return numero * 2
+doubble := func(number int) int {
+	return number * 2
 }
 
-fmt.Println(dobro(5))
+fmt.Println(doubble(5))
 ```
 
 ## Ponteiros
 
-Um ponteiro guarda o endereco de memoria de uma variavel.
+Um ponteiro guarda o endereço de memória de uma variável.
 
 ```go
 numero := 10
 ponteiro := &numero
 
 fmt.Println(numero)   // valor
-fmt.Println(ponteiro) // endereco
+fmt.Println(ponteiro) // endereço
 fmt.Println(*ponteiro) // valor apontado
 ```
 
@@ -456,7 +482,7 @@ func main() {
 }
 ```
 
-Use ponteiros quando precisar alterar um valor original, evitar copias grandes ou representar ausencia com `nil`.
+Use ponteiros quando precisar alterar um valor original, evitar cópias grandes ou representar ausência com `nil`.
 
 ## Arrays, slices e maps
 
@@ -471,7 +497,7 @@ numeros[1] = 20
 numeros[2] = 30
 ```
 
-Inicializacao direta:
+Inicialização direta:
 
 ```go
 numeros := [3]int{10, 20, 30}
@@ -479,11 +505,11 @@ numeros := [3]int{10, 20, 30}
 
 ### Slices
 
-Slices sao mais usados que arrays porque possuem tamanho dinamico.
+Slices são mais usados que arrays porque possuem tamanho dinâmico.
 
 ```go
-nomes := []string{"Ana", "Joao"}
-nomes = append(nomes, "Maria")
+names := []string{"Ana", "Joao"}
+names = append(names, "Maria")
 ```
 
 Criando com `make`:
@@ -525,7 +551,7 @@ Adicionar ou alterar:
 idades["Maria"] = 28
 ```
 
-Ler com verificacao:
+Ler com verificação:
 
 ```go
 idade, existe := idades["Ana"]
@@ -590,9 +616,9 @@ type Produto struct {
 }
 ```
 
-## Metodos
+## Métodos
 
-Metodos sao funcoes associadas a um tipo.
+Métodos são funções associadas a um tipo.
 
 ```go
 type Usuario struct {
@@ -627,11 +653,11 @@ func (u *Usuario) AlterarNome(nome string) {
 }
 ```
 
-Use receiver por ponteiro quando o metodo precisa alterar o valor original ou quando a struct e grande.
+Use receiver por ponteiro quando o método precisa alterar o valor original ou quando a struct é grande.
 
 ## Interfaces
 
-Interfaces definem comportamentos. Um tipo implementa uma interface implicitamente quando possui todos os metodos exigidos.
+Interfaces definem comportamentos. Um tipo implementa uma interface implicitamente quando possui todos os métodos exigidos.
 
 ```go
 type Notificador interface {
@@ -639,7 +665,7 @@ type Notificador interface {
 }
 ```
 
-Implementacao:
+Implementação:
 
 ```go
 type Email struct{}
@@ -696,12 +722,12 @@ func descrever(valor any) {
 
 ## Tratamento de erros
 
-Go usa valores de erro explicitos, normalmente como ultimo retorno de uma funcao.
+Go usa valores de erro explícitos, normalmente como último retorno de uma função.
 
 ```go
 func buscarUsuario(id int) (string, error) {
 	if id <= 0 {
-		return "", fmt.Errorf("id invalido")
+		return "", fmt.Errorf("id inválido")
 	}
 
 	return "Ana", nil
@@ -725,20 +751,20 @@ Criando erros:
 ```go
 import "errors"
 
-var ErrNaoEncontrado = errors.New("nao encontrado")
+var ErrNaoEncontrado = errors.New("não encontrado")
 ```
 
 Envolvendo erros:
 
 ```go
-return fmt.Errorf("buscar usuario: %w", err)
+return fmt.Errorf("buscar usuário: %w", err)
 ```
 
 Verificando erros:
 
 ```go
 if errors.Is(err, ErrNaoEncontrado) {
-	fmt.Println("usuario nao encontrado")
+	fmt.Println("usuário não encontrado")
 }
 ```
 
@@ -751,13 +777,13 @@ if errors.As(err, &pathErr) {
 }
 ```
 
-## Concorrencia
+## Concorrência
 
-Go tem suporte nativo a concorrencia por meio de goroutines e channels.
+Go tem suporte nativo a concorrência por meio de goroutines e channels.
 
 ### Goroutines
 
-Uma goroutine e uma funcao executando concorrentemente.
+Uma goroutine é uma função executando concorrentemente.
 
 ```go
 go func() {
@@ -781,7 +807,7 @@ wg.Wait()
 
 ### Channels
 
-Channels permitem comunicacao entre goroutines.
+Channels permitem comunicação entre goroutines.
 
 ```go
 canal := make(chan string)
@@ -818,7 +844,7 @@ for valor := range canal {
 
 ### select
 
-`select` espera por operacoes em multiplos channels.
+`select` espera por operações em múltiplos channels.
 
 ```go
 select {
@@ -844,7 +870,7 @@ contador++
 mu.Unlock()
 ```
 
-Tambem e comum usar `defer`:
+Também é comum usar `defer`:
 
 ```go
 mu.Lock()
@@ -853,9 +879,9 @@ defer mu.Unlock()
 
 ## Generics
 
-Generics permitem escrever funcoes e tipos que trabalham com diferentes tipos sem perder seguranca de tipo.
+Generics permitem escrever funções e tipos que trabalham com diferentes tipos sem perder segurança de tipo.
 
-Funcao generica:
+Função genérica:
 
 ```go
 func Primeiro[T any](valores []T) T {
@@ -882,25 +908,25 @@ func Somar[T Numero](a, b T) T {
 }
 ```
 
-Use generics quando eles reduzirem duplicacao real. Para muitos casos, interfaces simples continuam sendo a melhor opcao.
+Use generics quando eles reduzirem duplicação real. Para muitos casos, interfaces simples continuam sendo a melhor opção.
 
-## Modulos e dependencias
+## Módulos e dependências
 
-Um modulo Go e definido pelo arquivo `go.mod`.
+Um módulo Go é definido pelo arquivo `go.mod`.
 
-Criar modulo:
+Criar módulo:
 
 ```bash
 go mod init github.com/usuario/projeto
 ```
 
-Adicionar dependencia:
+Adicionar dependência:
 
 ```bash
 go get github.com/gin-gonic/gin
 ```
 
-Organizar dependencias:
+Organizar dependências:
 
 ```bash
 go mod tidy
@@ -916,7 +942,7 @@ go 1.22
 require github.com/gin-gonic/gin v1.10.0
 ```
 
-O arquivo `go.sum` registra hashes das dependencias para garantir reproducibilidade.
+O arquivo `go.sum` registra hashes das dependências para garantir reproducibilidade.
 
 ## Testes
 
@@ -996,50 +1022,71 @@ func TestSomarTabela(t *testing.T) {
 }
 ```
 
-## Formatacao e convencoes
+## Recebendo argumentos de linha de comando
 
-Go possui formatacao padronizada com `gofmt` ou `go fmt`.
+```go
+package main
+
+import (
+	"fmt"
+	"os"
+)
+
+func main() {
+	if len(os.Args) < 2 {
+		fmt.Println("Uso: go run main.go <nome>")
+		return
+	}
+
+	nome := os.Args[1]
+	fmt.Printf("Olá, %s!\n", nome)
+}
+```
+
+## Formatação e convenções
+
+Go possui formatação padronizada com `gofmt` ou `go fmt`.
 
 ```bash
 go fmt ./...
 ```
 
-Convencoes comuns:
+Convenções comuns:
 
-- Nomes exportados comecam com letra maiuscula: `Usuario`, `CriarPedido`.
-- Nomes nao exportados comecam com letra minuscula: `usuario`, `criarPedido`.
-- Pacotes costumam ter nomes curtos e em minusculo: `user`, `http`, `store`.
-- Evite nomes genericos como `utils` quando houver um nome de dominio mais claro.
+- Nomes exportados começam com letra maiúscula: `Usuario`, `CriarPedido`.
+- Nomes nao exportados começam com letra minúscula: `usuario`, `criarPedido`.
+- Pacotes costumam ter nomes curtos e em minúsculo: `user`, `http`, `store`.
+- Evite nomes genéricos como `utils` quando houver um nome de domínio mais claro.
 - Erros devem ser tratados explicitamente.
-- O codigo deve ser simples de ler antes de ser sofisticado.
+- O código deve ser simples de ler antes de ser sofisticado.
 
-Comentarios de simbolos exportados devem comecar com o nome do simbolo:
+Comentários de símbolos exportados devem começar com o nome do símbolo:
 
 ```go
-// Usuario representa uma pessoa cadastrada no sistema.
+// Usuário representa uma pessoa cadastrada no sistema.
 type Usuario struct {
 	Nome string
 }
 ```
 
-## Boas praticas
+## Boas práticas
 
 - Trate erros perto de onde eles acontecem.
 - Retorne erros com contexto usando `fmt.Errorf`.
-- Prefira composicao a heranca. Go nao possui heranca tradicional.
+- Prefira composição à herança. Go não possui herança tradicional.
 - Mantenha interfaces pequenas.
 - Declare interfaces no pacote consumidor quando fizer sentido.
-- Evite criar abstracoes antes de haver necessidade real.
-- Use `context.Context` para cancelamento, timeout e valores de escopo de requisicao.
-- Nao compartilhe memoria desnecessariamente entre goroutines.
-- Quando houver dados compartilhados, use channels, mutexes ou outra estrategia clara de sincronizacao.
-- Escreva testes para regras de negocio, casos de erro e integracoes importantes.
-- Use `go mod tidy` para manter dependencias limpas.
-- Rode `go fmt` antes de versionar alteracoes.
+- Evite criar abstrações antes de haver necessidade real.
+- Use `context.Context` para cancelamento, timeout e valores de escopo de requisição.
+- Nao compartilhe memória desnecessariamente entre goroutines.
+- Quando houver dados compartilhados, use channels, mutexes ou outra estratégia clara de sincronização.
+- Escreva testes para regras de negócio, casos de erro e integrações importantes.
+- Use `go mod tidy` para manter dependências limpas.
+- Rode `go fmt` antes de versionar alterações.
 
 ## Exemplo de API HTTP
 
-Exemplo usando apenas a biblioteca padrao:
+Exemplo usando apenas a biblioteca padrão:
 
 ```go
 package main
@@ -1057,7 +1104,7 @@ type Resposta struct {
 func saudacaoHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	resposta := Resposta{Mensagem: "Ola, Go!"}
+	resposta := Resposta{Mensagem: "Olá, Go!"}
 
 	if err := json.NewEncoder(w).Encode(resposta); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -1085,7 +1132,7 @@ Acesse:
 http://localhost:8080/saudacao
 ```
 
-## Comandos uteis
+## Comandos úteis
 
 Criar modulo:
 
@@ -1105,13 +1152,19 @@ Compilar:
 go build
 ```
 
-Instalar dependencias:
+ou
+
+```bash
+go build -o nome-do-binario
+```
+
+Instalar dependências:
 
 ```bash
 go get pacote
 ```
 
-Limpar dependencias:
+Limpar dependências:
 
 ```bash
 go mod tidy
@@ -1135,44 +1188,44 @@ Testar:
 go test ./...
 ```
 
-Ver documentacao de um pacote:
+Ver documentação de um pacote:
 
 ```bash
 go doc fmt
 ```
 
-Listar variaveis de ambiente do Go:
+Listar variáveis de ambiente do Go:
 
 ```bash
 go env
 ```
 
-## Glossario rapido
+## Glossário rápido
 
-- `package`: unidade de organizacao de codigo.
+- `package`: unidade de organização de código.
 - `module`: conjunto versionado de pacotes definido por `go.mod`.
-- `goroutine`: execucao concorrente leve.
-- `channel`: mecanismo de comunicacao entre goroutines.
+- `goroutine`: execução concorrente leve.
+- `channel`: mecanismo de comunicação entre goroutines.
 - `interface`: contrato de comportamento.
 - `struct`: tipo composto por campos.
-- `slice`: sequencia dinamica baseada em array.
+- `slice`: sequência dinâmica baseada em array.
 - `map`: estrutura chave-valor.
-- `defer`: adia a execucao de uma chamada ate o fim da funcao.
+- `defer`: adia a execução de uma chamada até o fim da função.
 - `panic`: interrompe o fluxo normal por erro grave.
-- `recover`: permite recuperar uma goroutine em panic dentro de uma funcao deferida.
+- `recover`: permite recuperar uma goroutine em panic dentro de uma função deferida.
 
-## Proximos estudos recomendados
+## Próximos estudos recomendados
 
 Depois dos fundamentos, vale estudar:
 
 - `context.Context`
 - APIs REST com `net/http`
-- Manipulacao de JSON
+- Manipulação de JSON
 - Banco de dados com `database/sql`
 - Migrations
-- Autenticacao e autorizacao
+- Autenticação e autorização
 - Logs estruturados
-- Testes de integracao
-- Concorrencia aplicada
+- Testes de integração
+- Concorrência aplicada
 - Clean Architecture em Go
-- Observabilidade com metricas, traces e logs
+- Observabilidade com métricas, traces e logs
