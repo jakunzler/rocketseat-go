@@ -15,7 +15,7 @@ Este repositório contém exemplos e exercícios de programação em Go, desenvo
 Clone o repositório:
 
 ```bash
-git clone https://github.com/rocketseat/rocketseat-go.git
+git clone https://github.com/jakunzler/rocketseat-go.git
 cd rocketseat-go
 ```
 
