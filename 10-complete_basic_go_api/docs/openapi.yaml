@@ -1,0 +1,232 @@
+openapi: 3.0.3
+info:
+  title: Go API
+  version: 1.0.0
+  description: API reutilizável com autenticação e tarefas.
+servers:
+  - url: http://localhost:8080
+paths:
+  /healthz:
+    get:
+      summary: Liveness
+      responses:
+        "200":
+          description: Processo ativo
+  /readyz:
+    get:
+      summary: Readiness
+      responses:
+        "200":
+          description: Dependências prontas
+        "503":
+          description: Banco indisponível
+  /api/v1/version:
+    get:
+      summary: Versão do binário
+      responses:
+        "200":
+          description: Versão e commit
+  /api/v1/auth/signup:
+    post:
+      summary: Cria usuário e sessão
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Signup"
+      responses:
+        "201":
+          description: Usuário criado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthEnvelope"
+        "409":
+          description: E-mail já cadastrado
+        "422":
+          description: Validação
+  /api/v1/auth/login:
+    post:
+      summary: Autentica
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Login"
+      responses:
+        "200":
+          description: Sessão emitida
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthEnvelope"
+        "401":
+          description: Credenciais inválidas
+  /api/v1/auth/refresh:
+    post:
+      summary: Rotaciona o refresh token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Refresh"
+      responses:
+        "200":
+          description: Nova sessão
+        "401":
+          description: Token inválido ou reutilizado
+  /api/v1/auth/logout:
+    post:
+      summary: Revoga um refresh token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Refresh"
+      responses:
+        "204":
+          description: Sessão encerrada
+  /api/v1/auth/logout-all:
+    post:
+      summary: Revoga todos os refresh tokens do usuário
+      security:
+        - bearerAuth: []
+      responses:
+        "204":
+          description: Sessões encerradas
+  /api/v1/me:
+    get:
+      summary: Usuário autenticado
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Perfil público
+  /api/v1/tasks:
+    get:
+      summary: Lista tarefas do usuário
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: limit
+          schema: {type: integer, minimum: 1, maximum: 100, default: 20}
+        - in: query
+          name: offset
+          schema: {type: integer, minimum: 0, maximum: 10000, default: 0}
+      responses:
+        "200":
+          description: Página de tarefas
+    post:
+      summary: Cria tarefa
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateTask"
+      responses:
+        "201":
+          description: Tarefa criada
+  /api/v1/tasks/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema: {type: string, format: uuid}
+    get:
+      summary: Busca tarefa
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Tarefa
+        "404":
+          description: Não encontrada
+    patch:
+      summary: Atualiza tarefa
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateTask"
+      responses:
+        "200":
+          description: Tarefa atualizada
+    delete:
+      summary: Remove tarefa
+      security:
+        - bearerAuth: []
+      responses:
+        "204":
+          description: Removida
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Signup:
+      type: object
+      required: [name, email, password]
+      properties:
+        name: {type: string, minLength: 1, maxLength: 80}
+        email: {type: string, format: email}
+        password: {type: string, minLength: 12, maxLength: 128}
+    Login:
+      type: object
+      required: [email, password]
+      properties:
+        email: {type: string, format: email}
+        password: {type: string}
+    Refresh:
+      type: object
+      required: [refresh_token]
+      properties:
+        refresh_token: {type: string}
+    AuthEnvelope:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            user:
+              $ref: "#/components/schemas/User"
+            tokens:
+              type: object
+              properties:
+                access_token: {type: string}
+                refresh_token: {type: string}
+                expires_at: {type: string, format: date-time}
+                token_type: {type: string, example: Bearer}
+    User:
+      type: object
+      properties:
+        id: {type: string, format: uuid}
+        name: {type: string}
+        email: {type: string}
+        created_at: {type: string, format: date-time}
+    CreateTask:
+      type: object
+      required: [title]
+      properties:
+        title: {type: string}
+        description: {type: string}
+        priority: {type: integer, minimum: 0, maximum: 100}
+    UpdateTask:
+      type: object
+      properties:
+        title: {type: string}
+        description: {type: string}
+        priority: {type: integer, minimum: 0, maximum: 100}
+        done: {type: boolean}
